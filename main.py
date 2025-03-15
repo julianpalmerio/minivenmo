@@ -57,6 +57,7 @@ class User:
     def __init__(self, username):
         self.credit_card_number = None
         self.balance = 0.0
+        self.activity = []
 
         if self._is_valid_username(username):
             self.username = username
@@ -121,6 +122,9 @@ class User:
         target.add_to_balance(amount)
         self.balance -= amount
         return payment
+
+    def save_activity(self, payment):
+        self.activity.append(payment)
 
     def _is_valid_credit_card(self, credit_card_number):
         return credit_card_number in ["4111111111111111", "4242424242424242"]

@@ -197,6 +197,12 @@ class TestUser(unittest.TestCase):
         with self.assertRaises(CreditCardException):
             user.add_credit_card("4242424242424242")
 
+    def test_save_activity(self):
+        user = User("Bobby")
+        payment = Payment(5.00, user, user, "Coffee")
+        user.save_activity(payment)
+        self.assertEqual(user.activity, [payment])
+
     def test_pay_with_balance_path(self):
         bobby = User("Bobby")
         carol = User("Carol")

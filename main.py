@@ -90,6 +90,8 @@ class User:
             payment = self.pay_with_balance(target, amount, note)
         else:
             payment = self.pay_with_card(target, amount, note)
+        self.save_activity(payment)
+        target.save_activity(payment)
 
     def pay_with_card(self, target, amount, note):
         amount = float(amount)

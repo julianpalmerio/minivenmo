@@ -162,12 +162,25 @@ class TestMiniVenmo(unittest.TestCase):
         self.assertEqual(user.balance, 5.00)
         self.assertEqual(user.credit_card_number, "4111111111111111")
 
+class TestUser(unittest.TestCase):
 
-# class TestUser(unittest.TestCase):
+    def test_add_to_balance(self):
+        user = User("Bobby")
+        user.add_to_balance(5.00)
+        self.assertEqual(user.balance, 5.00)
 
-#     def test_this_works(self):
-#         with self.assertRaises(UsernameException):
-#             raise UsernameException()
+    def test_add_credit_card_success(self):
+        user = User("Bobby")
+        user.add_credit_card("4111111111111111")
+        self.assertEqual(user.credit_card_number, "4111111111111111")
+
+    def test_add_credit_card_failure(self):
+        user = User("Bobby")
+        with self.assertRaises(CreditCardException):
+            user.add_credit_card("123456")
+        user.add_credit_card("4111111111111111")
+        with self.assertRaises(CreditCardException):
+            user.add_credit_card("4242424242424242")
 
 
 if __name__ == '__main__':

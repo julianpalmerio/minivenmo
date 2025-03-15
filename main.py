@@ -184,6 +184,27 @@ class TestUser(unittest.TestCase):
         with self.assertRaises(CreditCardException):
             user.add_credit_card("4242424242424242")
 
+    def test_pay_with_card_success(self):
+        bobby = User("Bobby")
+        carol = User("Carol")
+        bobby.add_credit_card("4111111111111111")
+        payment = bobby.pay_with_card(carol, 5.00, "Coffee")
+        self.assertEqual(bobby.balance, 0.00)
+        self.assertEqual(carol.balance, 5.00)
+        self.assertEqual(payment.amount, 5.00)
+        self.assertEqual(payment.actor, bobby)
+        self.assertEqual(payment.target, carol)
+        self.assertEqual(payment.note, "Coffee")
+
+    def test_pay_with_card_failure(self):
+        bobby = User("Bobby")
+        carol = User("Carol")
+        with self.assertRaises(PaymentException):
+            bobby.pay_with_card(bobby, 5.00, "Coffee")
+        with self.assertRaises(PaymentException):
+            bobby.pay_with_card(carol, 0.00, "Coffee")
+        with self.assertRaises(PaymentException):
+            bobby.pay_with_card(carol, 5.00, "Coffee")
 
 if __name__ == '__main__':
     unittest.main()

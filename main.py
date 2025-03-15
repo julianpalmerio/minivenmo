@@ -185,6 +185,17 @@ class TestMiniVenmo(unittest.TestCase):
 
 class TestUser(unittest.TestCase):
 
+    def test_retrieve_feed(self):
+        bobby = User("Bobby")
+        self.assertEqual(bobby.retrieve_feed(), [])
+        carol = User("Carol")
+        payment_1 = Payment(5.00, bobby, carol, "Coffee")
+        payment_2 = Payment(15.00, carol, bobby, "Lunch")
+        bobby.activity = [payment_1]
+        self.assertEqual(bobby.retrieve_feed(), [payment_1])
+        bobby.activity.append(payment_2)
+        self.assertEqual(bobby.retrieve_feed(), [payment_1, payment_2])
+
     def test_add_to_balance(self):
         user = User("Bobby")
         user.add_to_balance(5.00)

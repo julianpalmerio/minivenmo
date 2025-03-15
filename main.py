@@ -212,16 +212,26 @@ class TestUser(unittest.TestCase):
         carol = User("Carol")
         bobby.add_to_balance(5.00)
         bobby.pay_with_balance = MagicMock()
+        bobby.save_activity = MagicMock()
+        carol.save_activity = MagicMock()
         bobby.pay(carol, 5.00, "Coffee")
         bobby.pay_with_balance.assert_called_once_with(carol, 5.00, "Coffee")
         payment = bobby.pay_with_balance.return_value
+        bobby.save_activity.assert_called_once_with(payment)
+        carol.save_activity.assert_called_once_with(payment)
+
     def test_pay_with_card_path(self):
         bobby = User("Bobby")
         carol = User("Carol")
         bobby.pay_with_card = MagicMock()
+        bobby.save_activity = MagicMock()
+        carol.save_activity = MagicMock()
         bobby.pay(carol, 5.00, "Coffee")
         bobby.pay_with_card.assert_called_once_with(carol, 5.00, "Coffee")
         payment = bobby.pay_with_card.return_value
+        bobby.save_activity.assert_called_once_with(payment)
+        carol.save_activity.assert_called_once_with(payment)
+
     def test_pay_with_balance_success(self):
         bobby = User("Bobby")
         carol = User("Carol")

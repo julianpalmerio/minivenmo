@@ -65,8 +65,7 @@ class User:
             raise UsernameException('Username not valid.')
 
     def retrieve_feed(self):
-        # TODO: add code here
-        return []
+        return self.activity
 
     def add_friend(self, new_friend):
         # TODO: add code here
